@@ -129,3 +129,79 @@ def Home_Setting():
             print("设置页加载失败")
             poco("Navigate up").click()
         c=c+1
+#首页切换场景
+def Home_Security_Mode():
+   
+    a=0
+    while a<3:
+        sleep(2)
+        poco("com.bosma.smarthome:id/layoutHomeCommonScene").click()
+
+
+        #aa=poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.bosma.smarthome:id/smHomeSideMenu").offspring("com.bosma.smarthome:id/fl_fragment_container").offspring("android.widget.ScrollView").offspring("com.bosma.smarthome:id/rvHomeCommonSubSystem").child("com.bosma.smarthome:id/flSceneItemBg")[1].offspring("com.bosma.smarthome:id/tvSceneName")
+        bb=poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.bosma.smarthome:id/smHomeSideMenu").offspring("com.bosma.smarthome:id/fl_fragment_container").offspring("android.widget.ScrollView").offspring("com.bosma.smarthome:id/rvHomeCommonSubSystem").child("com.bosma.smarthome:id/flSceneItemBg")
+        scene_list=list(bb)
+        #print(scene_list)
+        #for i in range(len(scene_list)):
+        scene_list[a].click()
+        poco("com.bosma.smarthome:id/tvSceneExecute").click()
+        d=1
+        while d==1:
+            sleep(5)
+            if poco("com.bosma.smarthome:id/tvExecuteOk").exists():
+                break
+        dd=poco("com.bosma.smarthome:id/tvExecuteSceneName")
+        print(f'切换到{dd.attr("text")}场景')
+        poco("com.bosma.smarthome:id/tvExecuteOk").click()
+        a=a+1
+
+#首页进入云服务测试
+def Bosma_Assist():
+    poco(text="Bosma Assist").click()
+    sleep(5)
+    tab=poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("android.widget.LinearLayout").child("android.webkit.WebView").child("android.webkit.WebView").offspring("app").child("android.view.View").child("android.view.View")[0].child("android.view.View")
+    tab_list=list(tab)
+
+    #poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("android.widget.LinearLayout").child("android.webkit.WebView").child("android.webkit.WebView").offspring("app").child("android.view.View").child("android.view.View")[0].child("android.view.View")[0].child("android.widget.TextView")[0]
+
+
+    for i in range(len(tab_list)):
+        a=tab_list[i].child("android.widget.TextView")[1]
+        print(f'进入{a.attr("text")}页面')
+        tab_list[i].click()
+        sleep(5) 
+        print(f'退出{a.attr("text")}页面')
+        poco("Navigate up").click()
+        sleep(3)
+    print("退出云服务页面，返回首页")
+    poco("Navigate up").click()
+
+
+#首页设备列表
+
+def Home_Devices():
+    
+    if poco("com.bosma.smarthome:id/tvHomeDeviceList").exists():
+        #home_devices=poco("com.bosma.smarthome:id/rvHomeDevicesList")
+        home_devices=poco("android.widget.FrameLayout").child("android.widget.LinearLayout").offspring("com.bosma.smarthome:id/smHomeSideMenu").offspring("com.bosma.smarthome:id/fl_fragment_container").offspring("android.widget.ScrollView").offspring("com.bosma.smarthome:id/rvHomeDevicesList").child("android.widget.FrameLayout")
+      
+        home_devices_list=list(home_devices)
+
+
+        print(f'首页设备模块有{len(home_devices_list)}个设备')
+        for i in range (len(home_devices_list)):
+            device_name=home_devices_list[i].offspring("com.bosma.smarthome:id/tvCardViewText")
+            device_status=home_devices_list[i].offspring("com.bosma.smarthome:id/tvSubCardViewText")
+            device_name.click()
+            sleep(5)
+            poco("Navigate up").click()
+            sleep(3)
+            print(f'{device_name.attr("text")}设备：{device_status.attr("text")}')
+
+    else:
+        print("首页设备栏没有设备")
+
+
+
+
+
